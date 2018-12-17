@@ -1,34 +1,18 @@
-import React, { Component } from 'react';
-import FormContext from './FormContext';
+import React from 'react';
+import { asField } from './Field';
 
-class Input extends Component {
-  static contextType = FormContext;
+const Input = asField(props => {
+  console.log('Test -> ', props);
 
-  constructor(props) {
-    super(props);
-
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(event) {
-    const { update } = this.context;
-    const { name } = this.props;
-
-    update(name, event.target.value);
-  }
-
-  render() {
-    const { fields } = this.context;
-    const { name } = this.props;
-
-    return (
-      <input
-        type="text"
-        value={fields[name] || ''}
-        onChange={this.handleChange}
-      />
-    );
-  }
-}
+  return (
+    <input
+      type="text"
+      // value={props.fields[props.name] || ''}
+      onChange={e => {
+        props.update(props.name, e.target.value);
+      }}
+    />
+  );
+});
 
 export default Input;

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import FormContext from './FormContext';
+
 import Input from './Input';
 import Submit from './Submit';
-
-import asField from './asField';
 
 class Form extends Component {
   constructor(props) {
@@ -14,7 +13,7 @@ class Form extends Component {
       update: (name, value) => {
         this.setState(state => {
           const { fields } = state;
-          fields[name] = value;
+          fields[name] = { value, validate: null };
           return { fields, ...state };
         });
       },
@@ -31,20 +30,6 @@ class Form extends Component {
     );
   }
 }
-
-const Test = asField(a => {
-  console.log('Test -> ', a);
-  return (
-    <input
-      type="text"
-      value={a.fields[a.name] || ''}
-      onChange={e => {
-        console.log(e.target.value);
-        a.update(a.name, e.target.value);
-      }}
-    />
-  );
-});
 
 /* class Input extends Component {
   static contextType = MyContext;
@@ -127,4 +112,4 @@ const Test = asField(a => {
 } */
 
 export default Form;
-export { Input, Test, Submit };
+export { Input, Submit };
