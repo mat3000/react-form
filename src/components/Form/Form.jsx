@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import FormContext from './FormContext';
 
 import Input from './Input';
+import Checkbox from './Checkbox';
+import Radio from './Radio';
+import RadioGroup from './RadioGroup';
 import Submit from './Submit';
 
 class Form extends Component {
@@ -9,22 +12,71 @@ class Form extends Component {
     super(props);
 
     this.state = {
-      fields: {},
-      update: (name, value) => {
+      fields: {
+        // name : { value: 'String', touched: false, error: 'String' }
+      },
+      setValue: (name, value) => {
         this.setState(state => {
           const { fields } = state;
-          fields[name] = { value, validate: null };
+          fields[name] = fields[name] || {};
+          fields[name].value = value;
           return { fields, ...state };
         });
       },
+      setError: (name, value) => {
+        this.setState(state => {
+          const { fields } = state;
+          fields[name] = fields[name] || {};
+          fields[name].error = value;
+          return { fields, ...state };
+        });
+      },
+      setTouched: (name, value = true) => {
+        this.setState(state => {
+          const { fields } = state;
+          fields[name] = fields[name] || {};
+          fields[name].touched = value;
+          return { fields, ...state };
+        });
+      },
+      onSubmit: () => this.handleClick(),
     };
+  }
+
+  handleClick() {
+    const { onSubmit, children } = this.props;
+    const { fields, setError } = this.state;
+
+    children.forEach(element => {
+      Object.keys(fields).forEach(key => {
+        const field = fields[key];
+        if (
+          element.props.name &&
+          element.props.name === key &&
+          element.props.validator
+        ) {
+          const result = element.props.validator(field.value);
+          setError(key, result);
+        }
+      });
+    });
+
+    if (!this.checkError()) {
+      onSubmit(fields);
+    }
+  }
+
+  checkError() {
+    const { fields } = this.state;
+    const err = Object.keys(fields).filter(key => fields[key].error);
+    return err.length;
   }
 
   render() {
     const { children, onSubmit, ...rest } = this.props;
 
     return (
-      <FormContext.Provider value={{ onSubmit, ...this.state }}>
+      <FormContext.Provider value={{ ...this.state }}>
         <form {...rest}>{children}</form>
       </FormContext.Provider>
     );
@@ -112,4 +164,4 @@ class Form extends Component {
 } */
 
 export default Form;
-export { Input, Submit };
+export { Input, Checkbox, Radio, RadioGroup, Submit };

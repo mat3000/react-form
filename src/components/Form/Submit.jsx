@@ -12,10 +12,14 @@ class Submit extends Component {
 
   handleClick(event) {
     event.preventDefault();
+    const { onSubmit } = this.context;
+    onSubmit();
+  }
 
-    const { fields, onSubmit } = this.context;
-
-    onSubmit(fields);
+  checkError() {
+    const { fields } = this.context;
+    const err = Object.keys(fields).filter(key => fields[key].error);
+    return err.length;
   }
 
   render() {
