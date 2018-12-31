@@ -6,33 +6,26 @@ class Radio extends Component {
   static contextType = RadioContext;
 
   render() {
-    const { name } = this.context;
-    const {
-      // name,
-      test,
-      setValue,
-      // error,
-      setTouched,
-      setError,
-      validator,
-    } = this.props;
+    const { name, disabled, validator } = this.context;
+    const { api, value } = this.props;
+    const { setValue, setTouched, setError } = api;
     const uniqid = `label-${Math.round(Math.random() * 100000)}`;
 
     return (
       <label htmlFor={uniqid}>
         <input
           type="radio"
-          // name={name}
-          value={test}
-          id={`label-${name + uniqid}`}
+          name={name}
+          value={value}
+          id={uniqid}
           onChange={e => {
-            console.log(name, e.target.value);
-            setValue(e.target.value);
-            setTouched();
-            // setError(validator(e.target.checked));
+            setValue(e.target.value, name);
+            setTouched(name);
+            setError(validator(e.target.value), name);
           }}
+          disabled={disabled}
         />
-        {test}
+        {value}
       </label>
     );
   }

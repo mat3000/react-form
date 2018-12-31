@@ -49,16 +49,10 @@ import { asField } from './Field';
 
 export default Input; */
 
-const Input = props => {
-  const {
-    name,
-    value,
-    setValue,
-    error,
-    setTouched,
-    setError,
-    validator,
-  } = props;
+const Input = ({ state, api, ...props }) => {
+  const { setValue, setTouched, setError, validator } = api;
+  const { value, error } = state;
+  const { name, disabled, ...etc } = props;
 
   return (
     <p>
@@ -75,6 +69,8 @@ const Input = props => {
             if (e.target.value) setError(validator(e.target.value));
             else setError('');
           }}
+          disabled={disabled}
+          {...etc}
         />
       </label>
       {error ? (

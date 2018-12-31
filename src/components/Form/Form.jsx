@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import FormContext from './FormContext';
 
 import Input from './Input';
+import Textarea from './Textarea';
 import Checkbox from './Checkbox';
 import Radio from './Radio';
 import RadioGroup from './RadioGroup';
+import Select from './Select';
+import Option from './Option';
 import Submit from './Submit';
 
 class Form extends Component {
@@ -15,7 +18,7 @@ class Form extends Component {
       fields: {
         // name : { value: 'String', touched: false, error: 'String' }
       },
-      setValue: (name, value) => {
+      setValue: (value, name) => {
         this.setState(state => {
           const { fields } = state;
           fields[name] = fields[name] || {};
@@ -23,7 +26,7 @@ class Form extends Component {
           return { fields, ...state };
         });
       },
-      setError: (name, value) => {
+      setError: (value, name) => {
         this.setState(state => {
           const { fields } = state;
           fields[name] = fields[name] || {};
@@ -31,7 +34,7 @@ class Form extends Component {
           return { fields, ...state };
         });
       },
-      setTouched: (name, value = true) => {
+      setTouched: (value, name) => {
         this.setState(state => {
           const { fields } = state;
           fields[name] = fields[name] || {};
@@ -48,22 +51,29 @@ class Form extends Component {
     const { fields, setError } = this.state;
 
     children.forEach(element => {
-      Object.keys(fields).forEach(key => {
-        const field = fields[key];
-        if (
-          element.props.name &&
-          element.props.name === key &&
-          element.props.validator
-        ) {
-          const result = element.props.validator(field.value);
-          setError(key, result);
-        }
-      });
+      const { props } = element;
+      const key = Object.keys(fields).filter(k => props.name === k);
+      const field = fields[key];
+      if (props.name && props.validator && !props.disabled) {
+        const result = props.validator(field.value);
+        setError(result, key);
+      }
     });
 
-    if (!this.checkError()) {
-      onSubmit(fields);
-    }
+    setTimeout(() => {
+      if (!this.checkError()) {
+        onSubmit(fields);
+      }
+    });
+  }
+
+  handleChange() {
+    const { onChange } = this.props;
+    const { fields } = this.state;
+
+    setTimeout(() => {
+      onChange(fields);
+    });
   }
 
   checkError() {
@@ -73,95 +83,17 @@ class Form extends Component {
   }
 
   render() {
-    const { children, onSubmit, ...rest } = this.props;
+    const { children, onSubmit, onChange, ...etc } = this.props;
 
     return (
       <FormContext.Provider value={{ ...this.state }}>
-        <form {...rest}>{children}</form>
+        <form onChange={e => this.handleChange(e)} {...etc}>
+          {children}
+        </form>
       </FormContext.Provider>
     );
   }
 }
 
-/* class Input extends Component {
-  static contextType = MyContext;
-
-  constructor(props) {
-    super(props);
-
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(event) {
-    this.context.update(this.props.name, event.target.value);
-  }
-
-  render() {
-    return (
-      <input
-        type="text"
-        value={this.context.fields[this.props.name] || ''}
-        onChange={this.handleChange}
-      />
-    );
-  }
-} */
-
-/* class Textarea extends Component {
-  static contextType = MyContext;
-
-  constructor(props) {
-    super(props);
-
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(event) {
-    this.context.update(this.props.name, event.target.value);
-  }
-
-  render() {
-    const { fields } = this.context;
-    return (
-      <textarea
-        type="text"
-        value={fields[this.props.name] || ''}
-        onChange={this.handleChange}
-      />
-    );
-  }
-} */
-
-/* class Select extends Component {
-  static contextType = MyContext;
-
-  constructor(props) {
-    super(props);
-
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(event) {
-    this.context.update(this.props.name, event.target.value);
-  }
-
-  render() {
-    const { children } = this.props;
-    return <select onChange={this.handleChange}>{children}</select>;
-  }
-} */
-
-/* class Option extends Component {
-  render() {
-    const { value, children, ...other } = this.props;
-
-    return (
-      <option value={value || ''} {...other}>
-        {children}
-      </option>
-    );
-  }
-} */
-
 export default Form;
-export { Input, Checkbox, Radio, RadioGroup, Submit };
+export { Input, Textarea, Checkbox, Radio, RadioGroup, Select, Option, Submit };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { asField } from './Field';
 
-const Checkbox = ({ state, api, ...props }) => {
+const Textarea = ({ state, api, ...props }) => {
   const { setValue, setTouched, setError, validator } = api;
   const { value, error } = state;
   const { name, disabled, ...etc } = props;
@@ -9,19 +9,21 @@ const Checkbox = ({ state, api, ...props }) => {
   return (
     <p>
       <label htmlFor={`label-${name}`}>
-        <input
-          type="checkbox"
+        <textarea
+          type="text"
           value={value}
           id={`label-${name}`}
           onChange={e => {
-            setValue(e.target.checked);
+            setValue(e.target.value);
             setTouched();
-            setError(validator(e.target.checked));
+          }}
+          onBlur={e => {
+            if (e.target.value) setError(validator(e.target.value));
+            else setError('');
           }}
           disabled={disabled}
           {...etc}
         />
-        test
       </label>
       {error ? (
         <span style={{ display: 'block', color: 'red' }}>{error}</span>
@@ -30,4 +32,4 @@ const Checkbox = ({ state, api, ...props }) => {
   );
 };
 
-export default asField(Checkbox);
+export default asField(Textarea);
