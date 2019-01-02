@@ -17,39 +17,39 @@ class App extends Component {
         <Form onSubmit={e => console.log(e)} onChange={e => console.log(e)}>
           {/*  */}
 
-          <Input
-            name="input-1"
-            defaultValue="123456"
-            validator={v => (v.length < 5 ? '' : '/!\\ <5')}
-          />
+          <div>
+            <Input
+              type="text"
+              name="input-1"
+              defaultValue="123456"
+              validator={v => (v.length < 5 ? '' : '/!\\ <5')}
+            />
+
+            <Input
+              type="number"
+              name="input-2"
+              validator={v => (v.length > 5 ? '' : '/!\\ >5')}
+            />
+
+            <Input type="text" name="input-3" />
+          </div>
 
           <Input
-            name="input-2"
-            validator={v => (v.length > 5 ? '' : '/!\\ >5')}
-          />
-
-          <Input
-            name="input-3"
-            disabled
+            type="text"
+            name="input-4"
             validator={v => (v.length > 5 ? '' : '/!\\ >5')}
           />
 
           <Textarea
             name="textarea-1"
             defaultValue="okokokok"
-            disabled
             validator={v => (v.length < 5 ? '' : '/!\\ <5')}
           />
 
-          <Checkbox
-            name="checkbox-1"
-            disabled
-            validator={v => (v ? '' : 'error')}
-          />
+          <Checkbox name="checkbox-1" validator={v => (v ? '' : 'error')} />
 
           <RadioGroup
             name="radio-1"
-            disabled
             validator={v => (v === 'oui' ? '' : 'error')}
           >
             <Radio value="oui" />
@@ -59,7 +59,6 @@ class App extends Component {
           <Select
             name="select-1"
             defaultValue=""
-            disabled
             validator={v => (v === 'aaa' ? '' : 'error')}
           >
             <Option value="" disabled>

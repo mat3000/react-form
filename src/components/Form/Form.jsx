@@ -18,6 +18,14 @@ class Form extends Component {
       fields: {
         // name : { value: 'String', touched: false, error: 'String' }
       },
+      setValidator: (validator, name) => {
+        this.setState(state => {
+          const { fields } = state;
+          fields[name] = fields[name] || {};
+          fields[name].validator = validator;
+          return { fields, ...state };
+        });
+      },
       setValue: (value, name) => {
         this.setState(state => {
           const { fields } = state;
@@ -47,15 +55,13 @@ class Form extends Component {
   }
 
   handleClick() {
-    const { onSubmit, children } = this.props;
+    const { onSubmit } = this.props;
     const { fields, setError } = this.state;
 
-    children.forEach(element => {
-      const { props } = element;
-      const key = Object.keys(fields).filter(k => props.name === k);
+    Object.keys(fields).forEach(key => {
       const field = fields[key];
-      if (props.name && props.validator && !props.disabled) {
-        const result = props.validator(field.value);
+      if (field.validator) {
+        const result = field.validator(field.value);
         setError(result, key);
       }
     });

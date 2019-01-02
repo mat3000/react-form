@@ -5,10 +5,13 @@ class Field extends Component {
   static contextType = FormContext;
 
   componentDidMount() {
-    const { fields, setValue } = this.context;
-    const { name, defaultValue } = this.props;
+    const { fields, setValue, setValidator } = this.context;
+    const { name, validator, defaultValue } = this.props;
     const { value } = fields[name] || {};
 
+    if (name && validator) {
+      setValidator(validator, name);
+    }
     if (name) {
       setValue(value || defaultValue || '', name);
     }

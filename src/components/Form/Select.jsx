@@ -16,8 +16,7 @@ const Select = ({ state, api, ...props }) => {
           onChange={e => {
             setValue(e.target.value);
             setTouched();
-            if (e.target.value) setError(validator(e.target.value));
-            else setError('');
+            setError(e.target.value ? validator(e.target.value) : '');
           }}
           disabled={disabled}
           {...etc}

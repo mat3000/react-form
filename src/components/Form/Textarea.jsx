@@ -18,8 +18,7 @@ const Textarea = ({ state, api, ...props }) => {
             setTouched();
           }}
           onBlur={e => {
-            if (e.target.value) setError(validator(e.target.value));
-            else setError('');
+            setError(e.target.value ? validator(e.target.value) : '');
           }}
           disabled={disabled}
           {...etc}
