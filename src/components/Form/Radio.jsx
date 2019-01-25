@@ -6,10 +6,12 @@ class Radio extends Component {
   static contextType = RadioContext;
 
   render() {
-    const { name, disabled, validator } = this.context;
-    const { api, value } = this.props;
+    const { validator, name, onChange, initialvalue, ...etc } = this.context;
+    const { children, api, value } = this.props;
     const { setValue, setTouched, setError } = api;
     const uniqid = `label-${Math.round(Math.random() * 100000)}`;
+
+    etc.defaultChecked = initialvalue === value;
 
     return (
       <label htmlFor={uniqid}>
@@ -22,10 +24,11 @@ class Radio extends Component {
             setValue(e.target.value, name);
             setTouched(name);
             setError(validator(e.target.value), name);
+            if (onChange) onChange(e.target.value);
           }}
-          disabled={disabled}
+          {...etc}
         />
-        {value}
+        {children || value}
       </label>
     );
   }

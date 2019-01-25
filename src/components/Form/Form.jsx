@@ -58,6 +58,7 @@ class Form extends Component {
     const { onSubmit } = this.props;
     const { fields, setError } = this.state;
 
+    /* test tous les champs */
     Object.keys(fields).forEach(key => {
       const field = fields[key];
       if (field.validator) {

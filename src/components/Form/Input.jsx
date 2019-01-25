@@ -4,7 +4,7 @@ import { asField } from './Field';
 const Input = ({ state, api, ...props }) => {
   const { setValue, setTouched, setError, validator } = api;
   const { value, error } = state;
-  const { name, disabled, ...etc } = props;
+  const { name, disabled, onChange, ...etc } = props;
 
   return (
     <p>
@@ -15,6 +15,7 @@ const Input = ({ state, api, ...props }) => {
           onChange={e => {
             setValue(e.target.value);
             setTouched();
+            if (onChange) onChange(e.target.value);
           }}
           onBlur={e => {
             setError(e.target.value ? validator(e.target.value) : '');

@@ -17,6 +17,21 @@ class App extends Component {
         <Form onSubmit={e => console.log(e)} onChange={e => console.log(e)}>
           {/*  */}
 
+          <RadioGroup
+            name="radio-2"
+            initialvalue="false"
+            onChange={e => console.log('onChange ->', e)}
+          >
+            <Radio value="true">oui</Radio>
+            <Radio value="false">non</Radio>
+          </RadioGroup>
+
+          <Input
+            type="text"
+            name="input-1b"
+            onChange={e => console.log('onChange ->', e)}
+          />
+
           <div>
             <Input
               type="text"
@@ -28,10 +43,20 @@ class App extends Component {
             <Input
               type="number"
               name="input-2"
+              placeholder="placeholder"
               validator={v => (v.length > 5 ? '' : '/!\\ >5')}
             />
 
             <Input type="text" name="input-3" />
+
+            <Input
+              type="color"
+              name="input-3b"
+              defaultValue="#F00"
+              validator={v =>
+                /^#[0-9A-Fa-f]{6}$/.test(v) ? '' : `/!\\ error : ${v}`
+              }
+            />
           </div>
 
           <Input

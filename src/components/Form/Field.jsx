@@ -39,6 +39,7 @@ class Field extends Component {
       state: {
         value: value || (defaultValue && !touched ? defaultValue : ''),
         error,
+        fields,
       },
       name,
       ...etc,
