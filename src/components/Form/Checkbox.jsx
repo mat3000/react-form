@@ -11,7 +11,7 @@ const Checkbox = ({ state, api, ...props }) => {
       <label htmlFor={`label-${name}`}>
         <input
           type="checkbox"
-          value={value}
+          value={disabled ? '' : value}
           id={`label-${name}`}
           onChange={e => {
             setValue(e.target.checked);
@@ -23,7 +23,7 @@ const Checkbox = ({ state, api, ...props }) => {
         />
         test
       </label>
-      {error ? (
+      {!disabled && error ? (
         <span style={{ display: 'block', color: 'red' }}>{error}</span>
       ) : null}
     </p>

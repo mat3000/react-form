@@ -6,12 +6,12 @@ class Radio extends Component {
   static contextType = RadioContext;
 
   render() {
-    const { validator, name, onChange, initialvalue, ...etc } = this.context;
+    const { validator, name, onChange, defaultvalue, ...etc } = this.context;
     const { children, api, value } = this.props;
     const { setValue, setTouched, setError } = api;
     const uniqid = `label-${Math.round(Math.random() * 100000)}`;
 
-    etc.defaultChecked = initialvalue === value;
+    etc.defaultChecked = defaultvalue === value;
 
     return (
       <label htmlFor={uniqid}>

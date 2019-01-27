@@ -11,16 +11,27 @@ import Form, {
 } from './components/Form/Form';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      status: 'false',
+    };
+  }
+
   render() {
+    const { status } = this.state;
     return (
       <div>
-        <Form onSubmit={e => console.log(e)} onChange={e => console.log(e)}>
+        <Form
+          onSubmit={e => console.log('onSubmit ->', e)}
+          onChange={e => console.log('onChange ->', e)}
+        >
           {/*  */}
 
           <RadioGroup
             name="radio-2"
-            initialvalue="false"
-            onChange={e => console.log('onChange ->', e)}
+            defaultvalue="false"
+            onChange={e => this.setState({ status: e })}
           >
             <Radio value="true">oui</Radio>
             <Radio value="false">non</Radio>
@@ -29,6 +40,10 @@ class App extends Component {
           <Input
             type="text"
             name="input-1b"
+            placeholder="coucou"
+            defaultValue="hahaha"
+            disabled={status === 'true'}
+            validator={v => (v.length < 5 ? '' : '/!\\ <5')}
             onChange={e => console.log('onChange ->', e)}
           />
 
@@ -52,7 +67,7 @@ class App extends Component {
             <Input
               type="color"
               name="input-3b"
-              defaultValue="#F00"
+              defaultValue="#FF0000"
               validator={v =>
                 /^#[0-9A-Fa-f]{6}$/.test(v) ? '' : `/!\\ error : ${v}`
               }
@@ -68,6 +83,7 @@ class App extends Component {
           <Textarea
             name="textarea-1"
             defaultValue="okokokok"
+            disabled={status === 'true'}
             validator={v => (v.length < 5 ? '' : '/!\\ <5')}
           />
 
@@ -75,6 +91,7 @@ class App extends Component {
 
           <RadioGroup
             name="radio-1"
+            disabled={status === 'true'}
             validator={v => (v === 'oui' ? '' : 'error')}
           >
             <Radio value="oui" />

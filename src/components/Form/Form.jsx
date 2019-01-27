@@ -16,7 +16,7 @@ class Form extends Component {
 
     this.state = {
       fields: {
-        // name : { value: 'String', touched: false, error: 'String' }
+        // name : { value: 'String', touched: false, disabled: false, error: 'String' }
       },
       setValidator: (validator, name) => {
         this.setState(state => {
@@ -33,6 +33,10 @@ class Form extends Component {
           fields[name].value = value;
           return { fields, ...state };
         });
+      },
+      setDisabled: (value, name) => {
+        const { fields } = this.state;
+        if (fields[name]) fields[name].disabled = value;
       },
       setError: (value, name) => {
         this.setState(state => {
@@ -57,19 +61,26 @@ class Form extends Component {
   handleClick() {
     const { onSubmit } = this.props;
     const { fields, setError } = this.state;
+    const form = {};
 
-    /* test tous les champs */
     Object.keys(fields).forEach(key => {
       const field = fields[key];
+
+      /* test all inputs */
       if (field.validator) {
-        const result = field.validator(field.value);
+        const result = field.disabled ? false : field.validator(field.value);
         setError(result, key);
+      }
+
+      /* remove fields who are disaled */
+      if (!field.disabled) {
+        form[key] = field.value;
       }
     });
 
     setTimeout(() => {
       if (!this.checkError()) {
-        onSubmit(fields);
+        onSubmit(form);
       }
     });
   }

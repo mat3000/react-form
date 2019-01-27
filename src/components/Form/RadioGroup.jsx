@@ -5,13 +5,13 @@ import { asField } from './Field';
 const RadioGroup = ({ state, api, ...props }) => {
   const { validator } = api;
   const { error } = state;
-  const { children, ...etc } = props;
+  const { disabled, children, ...etc } = props;
 
   return (
-    <RadioContext.Provider value={{ validator, ...etc }}>
+    <RadioContext.Provider value={{ validator, disabled, ...etc }}>
       <p>
         {children}
-        {error ? (
+        {!disabled && error ? (
           <span style={{ display: 'block', color: 'red' }}>{error}</span>
         ) : null}
       </p>

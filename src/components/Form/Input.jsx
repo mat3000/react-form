@@ -6,11 +6,13 @@ const Input = ({ state, api, ...props }) => {
   const { value, error } = state;
   const { name, disabled, onChange, ...etc } = props;
 
+  // setDisabled(!!disabled);
+
   return (
     <p>
       <label htmlFor={`label-${name}`}>
         <input
-          value={value}
+          value={disabled ? '' : value}
           id={`label-${name}`}
           onChange={e => {
             setValue(e.target.value);
@@ -24,7 +26,7 @@ const Input = ({ state, api, ...props }) => {
           {...etc}
         />
       </label>
-      {error ? (
+      {!disabled && error ? (
         <span style={{ display: 'block', color: 'red' }}>{error}</span>
       ) : null}
     </p>

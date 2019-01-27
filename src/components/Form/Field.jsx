@@ -23,15 +23,23 @@ class Field extends Component {
       children,
       component,
       validator,
+      disabled,
       defaultValue,
       ...etc
     } = this.props;
-    const { setValue, setTouched, setError, fields } = this.context;
+    const {
+      setValue,
+      setDisabled,
+      setTouched,
+      setError,
+      fields,
+    } = this.context;
     const { value, error, touched } = fields[name] || {};
 
     const props = {
       api: {
         setValue: (val, n = name) => setValue(val, n),
+        setDisabled: (val, n = name) => setDisabled(val, n),
         setTouched: (n = name) => setTouched(true, n),
         setError: (val, n = name) => setError(val, n),
         validator: val => (validator ? validator(val) : ''),
@@ -42,8 +50,11 @@ class Field extends Component {
         fields,
       },
       name,
+      disabled,
       ...etc,
     };
+
+    setDisabled(!!disabled, name);
 
     if (component) {
       return React.createElement(component, props, children);

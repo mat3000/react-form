@@ -11,7 +11,7 @@ const Select = ({ state, api, ...props }) => {
       <label htmlFor={`label-${name}`}>
         <select
           type="text"
-          value={value}
+          value={disabled ? '' : value}
           id={`label-${name}`}
           onChange={e => {
             setValue(e.target.value);
@@ -24,7 +24,7 @@ const Select = ({ state, api, ...props }) => {
           {children}
         </select>
       </label>
-      {error ? (
+      {!disabled && error ? (
         <span style={{ display: 'block', color: 'red' }}>{error}</span>
       ) : null}
     </p>
