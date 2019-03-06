@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import FormContext from './FormContext';
 
-import Input from './Input';
-import Textarea from './Textarea';
-import Checkbox from './Checkbox';
-import Radio from './Radio';
-import RadioGroup from './RadioGroup';
-import Select from './Select';
-import Option from './Option';
-import Submit from './Submit';
+import Input from './components/Input';
+import Textarea from './components/Textarea';
+import Checkbox from './components/Checkbox';
+import Radio from './components/Radio';
+import RadioGroup from './components/RadioGroup';
+import Select from './components/Select';
+import Option from './components/Option';
+import Captcha from './components/Captcha';
+import Autocomplete from './components/Autocomplete';
+import Submit from './components/Submit';
 
 class Form extends Component {
   constructor(props) {
@@ -114,4 +116,15 @@ class Form extends Component {
 }
 
 export default Form;
-export { Input, Textarea, Checkbox, Radio, RadioGroup, Select, Option, Submit };
+export {
+  Input,
+  Textarea,
+  Checkbox,
+  Radio,
+  RadioGroup,
+  Select,
+  Option,
+  Captcha,
+  Autocomplete,
+  Submit,
+};

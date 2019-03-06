@@ -1,27 +1,28 @@
 import React from 'react';
-import { asField } from './Field';
+import { asField } from '../Field';
 
-const Checkbox = ({ state, api, ...props }) => {
+const Input = ({ state, api, ...props }) => {
   const { setValue, setTouched, setError, validator } = api;
   const { value, error } = state;
-  const { name, disabled, ...etc } = props;
+  const { name, disabled, onChange, ...etc } = props;
 
   return (
     <p>
       <label htmlFor={`label-${name}`}>
         <input
-          type="checkbox"
           value={disabled ? '' : value}
           id={`label-${name}`}
           onChange={e => {
-            setValue(e.target.checked);
+            setValue(e.target.value);
             setTouched();
-            setError(validator(e.target.checked));
+            if (onChange) onChange(e.target.value);
+          }}
+          onBlur={e => {
+            setError(e.target.value ? validator(e.target.value) : '');
           }}
           disabled={disabled}
           {...etc}
         />
-        test
       </label>
       {!disabled && error ? (
         <span style={{ display: 'block', color: 'red' }}>{error}</span>
@@ -30,4 +31,4 @@ const Checkbox = ({ state, api, ...props }) => {
   );
 };
 
-export default asField(Checkbox);
+export default asField(Input);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { asField } from './Field';
+import { asField } from '../Field';
 
 const Select = ({ state, api, ...props }) => {
   const { setValue, setTouched, setError, validator } = api;

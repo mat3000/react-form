@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { asField } from './Field';
-import { RadioContext } from './FormContext';
+import { asField } from '../Field';
+import { RadioContext } from '../FormContext';
 
 class Radio extends Component {
   static contextType = RadioContext;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FormContext from './FormContext';
+import FormContext from '../FormContext';
 
 class Submit extends Component {
   static contextType = FormContext;

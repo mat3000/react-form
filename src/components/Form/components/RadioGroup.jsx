@@ -1,6 +1,6 @@
 import React from 'react';
-import { RadioContext } from './FormContext';
-import { asField } from './Field';
+import { RadioContext } from '../FormContext';
+import { asField } from '../Field';
 
 const RadioGroup = ({ state, api, ...props }) => {
   const { validator } = api;

@@ -6,7 +6,7 @@ class Field extends Component {
 
   componentDidMount() {
     const { fields, setValue, setValidator } = this.context;
-    const { name, validator, defaultValue } = this.props;
+    const { name, validator, value: defaultValue } = this.props;
     const { value } = fields[name] || {};
 
     if (name && validator) {
@@ -24,7 +24,7 @@ class Field extends Component {
       component,
       validator,
       disabled,
-      defaultValue,
+      value: defaultValue,
       ...etc
     } = this.props;
     const {
